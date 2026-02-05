@@ -6,26 +6,29 @@
     <title>Jumblers - Agencia de Marketing Digital 360°</title>
     <meta name="description" content="Agencia de marketing digital y físico. Transformamos clics en clientes reales con estrategias 360 y neurocopywriting.">
     
-    <!-- TAILWIND CSS (Motor de diseño visual) -->
+    <!-- TAILWIND CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FUENTES E ICONOS (Tipografía Inter e iconos Lucide) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FUENTES: Luckiest Guy (Marca) y Baloo 2 (Todo el resto) -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Luckiest+Guy&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- CONFIGURACIÓN DE COLORES DE MARCA -->
+    <!-- CONFIGURACIÓN DE COLORES Y FUENTES -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    fontFamily: { 
+                        sans: ['"Baloo 2"', 'cursive'], 
+                        brand: ['"Luckiest Guy"', 'cursive'] 
+                    },
                     colors: {
                         jumblers: {
-                            black: '#09090b',    // Negro Profundo
-                            purple: '#a855f7',   // Morado Vibrante
-                            light: '#faf5ff',    // Fondo Claro
-                            darkPurple: '#4c1d95', // Morado Oscuro
-                            accent: '#e9d5ff'    // Lila Suave
+                            black: '#000000',      
+                            purple: '#4f54a7',    // Oscuro
+                            light: '#fafaff',     
+                            accent: '#b198f5',    // Claro
+                            vibrant: '#a855f7'    
                         }
                     }
                 }
@@ -34,229 +37,193 @@
     </script>
     <style>
         html { scroll-behavior: smooth; }
-        /* Efecto de texto gradiente para títulos impactantes */
+        
+        .font-brand {
+            font-family: 'Luckiest Guy', cursive;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- TEXTURAS Y EFECTOS --- */
+        .bg-texture-hero {
+            background-image: radial-gradient(rgba(177, 152, 245, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .bg-texture-services {
+            background-color: #fafaff;
+            background-image: radial-gradient(#b198f5 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .bg-texture-ai {
+            background-image: linear-gradient(30deg, #000000 12%, transparent 12.5%, transparent 87%, #000000 87.5%, #000000),
+            linear-gradient(150deg, #000000 12%, transparent 12.5%, transparent 87%, #000000 87.5%, #000000),
+            linear-gradient(60deg, #4f54a715 25%, transparent 25.5%, transparent 75%, #4f54a715 75%, #4f54a715);
+            background-size: 80px 140px;
+        }
+
+        .bg-texture-about {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
+
+        .bg-texture-contact {
+            background: repeating-linear-gradient(45deg, #fafaff, #fafaff 10px, #f1eeff 10px, #f1eeff 20px);
+        }
+
+        .hero-blob {
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float-slow { animation: float 7s ease-in-out infinite; }
+        .animate-float-mid { animation: float 5s ease-in-out infinite; }
+        .animate-float-fast { animation: float 4s ease-in-out infinite; }
+        .animate-float-alt { animation: float 6s ease-in-out infinite reverse; }
+
         .gradient-text {
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            background-image: linear-gradient(to right, #e9d5ff, #a855f7);
+            background-image: linear-gradient(to right, #b198f5, #ffffff);
         }
     </style>
 </head>
-<body class="bg-jumblers-light text-gray-900 font-sans antialiased overflow-x-hidden">
+<body class="bg-jumblers-light text-gray-900 font-sans antialiased overflow-x-hidden text-left">
 
-    <!-- BARRA DE NAVEGACIÓN (NAVBAR) -->
+    <!-- BARRA DE NAVEGACIÓN -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                
-                <!-- LOGO DE LA AGENCIA -->
+                <!-- LOGO DINÁMICO -->
                 <div class="flex flex-col items-center justify-center leading-none cursor-pointer group">
-                    <!-- 1. Intenta cargar tu imagen 'Logo.png' -->
-                    <img src="Logo.png" alt="Logo Jumblers" class="h-10 w-auto mb-1 rounded-md shadow-lg border border-purple-500/30 object-contain bg-jumblers-black" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='flex'">
-                    
-                    <!-- 2. Logo de respaldo (letra J) si la imagen no carga -->
+                    <img id="logo-home" src="Default Negativo.png" alt="Jumblers Blanco" class="h-12 w-auto mb-1 object-contain transition-all duration-300" onerror="this.style.display='none';">
+                    <img id="logo-scroll" src="Saludo Positivo.png" alt="Jumblers Positivo" class="h-12 w-auto mb-1 object-contain hidden transition-all duration-300" onerror="this.style.display='none'; var e=document.getElementById('fallback-logo'); if(e) e.style.display='flex';">
                     <div id="fallback-logo" class="h-10 w-10 bg-jumblers-black rounded-md items-center justify-center border border-purple-500/30 shadow-lg mb-1 hidden">
-                        <span class="text-jumblers-purple font-bold text-xl">J</span>
+                        <span class="text-jumblers-accent font-bold text-xl">J</span>
                     </div>
-
-                    <span id="logo-text" class="text-xl font-bold tracking-tighter text-white transition-colors">
-                        JUMBLERS<span class="text-jumblers-purple">.</span>
-                    </span>
+                    <span id="logo-text" class="text-xl md:text-2xl font-brand tracking-tight text-white transition-colors">JUMBLERS<span class="text-jumblers-vibrant">.</span></span>
                 </div>
 
-                <!-- Menú de Escritorio -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#home" class="nav-link text-gray-100 hover:text-jumblers-purple transition-colors font-medium">Inicio</a>
-                    <a href="#services" class="nav-link text-gray-100 hover:text-jumblers-purple transition-colors font-medium">Servicios</a>
-                    <a href="#ai-lab" class="nav-link text-gray-100 hover:text-jumblers-purple transition-colors font-medium">AI Lab ✨</a>
-                    <a href="#about" class="nav-link text-gray-100 hover:text-jumblers-purple transition-colors font-medium">Nosotros</a>
-                    <a href="#contact" class="bg-jumblers-purple hover:bg-opacity-90 text-white px-5 py-2 rounded-full font-medium transition-all shadow-lg transform hover:-translate-y-0.5">Hablemos</a>
+                <!-- Menú Desktop -->
+                <div class="hidden md:flex space-x-8 items-center font-bold">
+                    <a href="#home" class="nav-link text-gray-100 hover:text-jumblers-accent transition-colors">Inicio</a>
+                    <a href="#services" class="nav-link text-gray-100 hover:text-jumblers-accent transition-colors">Servicios</a>
+                    <a href="#ai-lab" class="nav-link text-gray-100 hover:text-jumblers-accent transition-colors">AI Lab ✨</a>
+                    <a href="#about" class="nav-link text-gray-100 hover:text-jumblers-accent transition-colors">Nosotros</a>
+                    <a href="#contact" class="bg-jumblers-vibrant hover:opacity-90 text-white px-5 py-2 rounded-full shadow-lg transform hover:-translate-y-0.5 transition-all">Hablemos</a>
                 </div>
 
                 <!-- Botón Menú Móvil -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none transition-colors duration-300">
                         <i data-lucide="menu" class="w-8 h-8"></i>
                     </button>
                 </div>
             </div>
         </div>
-
-        <!-- Menú Desplegable Móvil -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl absolute w-full left-0 top-full border-t border-gray-100 animate-in slide-in-from-top-5">
+        <div id="mobile-menu" class="md:hidden bg-white shadow-xl absolute w-full left-0 top-full border-t border-gray-100 overflow-hidden transition-all duration-300 max-h-0 opacity-0 ease-in-out">
             <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#home" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800 hover:bg-purple-50">Inicio</a>
-                <a href="#services" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800 hover:bg-purple-50">Servicios</a>
-                <a href="#ai-lab" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800 hover:bg-purple-50">AI Lab ✨</a>
-                <a href="#about" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800 hover:bg-purple-50">Nosotros</a>
-                <a href="#contact" class="block px-4 py-3 rounded-lg text-base font-bold text-jumblers-purple hover:bg-purple-50">Contáctanos</a>
+                <a href="#home" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800">Inicio</a>
+                <a href="#services" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800">Servicios</a>
+                <a href="#ai-lab" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800">AI Lab ✨</a>
+                <a href="#about" class="block px-4 py-3 rounded-lg text-base font-medium text-gray-800">Nosotros</a>
+                <a href="#contact" class="block px-4 py-3 rounded-lg text-xl font-bold text-white bg-jumblers-vibrant text-center mt-2">Contáctanos</a>
             </div>
         </div>
     </nav>
 
-    <!-- SECCIÓN HERO (PRINCIPAL) -->
-    <section id="home" class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden bg-jumblers-black">
-        <!-- Fondo con superposición -->
-        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80')] bg-cover bg-center"></div>
-        <div class="absolute inset-0 opacity-95 bg-gradient-to-br from-jumblers-black via-jumblers-black to-jumblers-darkPurple"></div>
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden bg-black text-center">
+        <div class="absolute inset-0 opacity-40 bg-texture-hero"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-black to-jumblers-purple opacity-90"></div>
+        
+        <div class="hero-blob absolute top-1/4 -left-20 w-64 h-64 bg-jumblers-purple rounded-full"></div>
+        <div class="hero-blob absolute bottom-1/4 -right-20 w-80 h-80 bg-jumblers-accent rounded-full"></div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 w-full">
-            <div class="inline-block px-4 py-1 mb-6 rounded-full text-xs md:text-sm font-semibold tracking-wide uppercase bg-white/5 border border-jumblers-purple text-jumblers-accent">
-                Expertos en crecimiento de marca
-            </div>
-
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-6">
-                Transformamos clics <br class="hidden md:block" />
-                en <span class="gradient-text">clientes reales</span>
-            </h1>
-
-            <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-300 mb-10 px-4">
-                Ofrecemos <strong>soluciones 360°</strong> que integran todo el ecosistema de tu marca. Desde estrategias <strong>digitales</strong> hasta experiencias <strong>físicas</strong>.
-            </p>
-
-            <!-- Grupo de Botones CTA -->
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 w-full">
+            <div class="inline-block px-4 py-1 mb-6 mt-24 md:mt-0 rounded-full text-sm font-semibold tracking-wide uppercase bg-white/10 border border-jumblers-accent text-jumblers-accent">Expertos en crecimiento de marca</div>
+            <h1 class="text-5xl sm:text-6xl md:text-8xl font-sans font-extrabold text-white tracking-tight leading-tight mb-6">Transformamos clics <br class="hidden md:block" /> en <span class="gradient-text">clientes reales</span></h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl md:text-2xl text-gray-300 mb-10 px-4 font-medium">Ofrecemos <strong>soluciones 360°</strong> que integran todo el ecosistema de tu marca.</p>
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 w-full px-4">
-                <!-- Enlace de WhatsApp actualizado -->
-                <a href="https://wa.me/573204491592?text=Hola!%20Quiero%20potenciar%20mi%20marca" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-lg text-white bg-[#25D366] hover:opacity-90 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center">
-                    Hablemos <i data-lucide="message-circle" class="ml-2 w-5 h-5"></i>
-                </a>
-                <a href="#about" class="w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-lg text-white bg-blue-600 hover:bg-blue-500 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center">
-                    Conócenos
-                </a>
-                <a href="#services" class="w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-lg text-black bg-yellow-400 hover:bg-yellow-300 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center">
-                    Servicios
-                </a>
-                <a href="#ai-lab" class="w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-lg text-white bg-jumblers-purple hover:bg-opacity-90 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center ring-2 ring-purple-500/50">
-                    <i data-lucide="sparkles" class="mr-2 w-5 h-5"></i> Probar Jumblers AI
-                </a>
+                <a href="https://wa.me/573204491592?text=Hola!%20Quiero%20potenciar%20mi%20marca" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-xl text-white bg-[#25D366] hover:opacity-90 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center">Hablemos <i data-lucide="message-circle" class="ml-2 w-6 h-6"></i></a>
+                <a href="#about" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-xl text-white bg-blue-600 hover:bg-blue-500 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center">Conócenos</a>
+                <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-xl text-black bg-yellow-400 hover:bg-yellow-300 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center">Servicios</a>
+                <a href="#ai-lab" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-xl text-white bg-jumblers-vibrant hover:opacity-90 hover:-translate-y-1 transition-all shadow-lg flex items-center justify-center ring-2 ring-purple-500/50"><i data-lucide="sparkles" class="mr-2 w-6 h-6"></i> Jumblers AI</a>
             </div>
         </div>
-
-        <!-- Flecha de Scroll -->
-        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block text-jumblers-purple">
-            <i data-lucide="chevron-down" class="w-8 h-8"></i>
-        </div>
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block text-jumblers-accent"><i data-lucide="chevron-down" class="w-10 h-10"></i></div>
     </section>
 
-    <!-- SECCIÓN DE SERVICIOS -->
-    <section id="services" class="py-16 md:py-24 bg-jumblers-light">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 md:mb-16">
-                <h2 class="text-base font-semibold tracking-wide uppercase text-jumblers-purple">Qué hacemos</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-jumblers-black sm:text-4xl">
-                    Portafolio de servicios integral
-                </p>
-                <p class="mt-4 max-w-2xl text-lg text-gray-500 mx-auto">
-                    Desde la primera línea de código hasta la impresión final. Cubrimos todas las necesidades de marketing de tu empresa.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <!-- Tarjeta 1 -->
-                <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-4 border-jumblers-purple flex flex-col">
-                    <div class="w-12 h-12 rounded-lg bg-purple-100 text-jumblers-purple flex items-center justify-center mb-6">
-                        <i data-lucide="search" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-jumblers-black">Posicionamiento SEO</h3>
-                    <p class="text-gray-600 flex-grow">Visibilidad total. Optimizamos tu presencia no solo en Google, sino también en buscadores de redes sociales.</p>
-                </div>
-                <!-- Tarjeta 2 -->
-                <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-4 border-jumblers-black flex flex-col">
-                    <div class="w-12 h-12 rounded-lg bg-gray-100 text-jumblers-black flex items-center justify-center mb-6">
-                        <i data-lucide="megaphone" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-jumblers-black">Ads y Campañas</h3>
-                    <p class="text-gray-600 flex-grow">Gestión experta de pauta. Maximizamos tu presupuesto en Meta Ads, Google Ads y LinkedIn Ads.</p>
-                </div>
-                <!-- Tarjeta 3 -->
-                <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-4 border-jumblers-purple flex flex-col">
-                    <div class="w-12 h-12 rounded-lg bg-purple-100 text-jumblers-purple flex items-center justify-center mb-6">
-                        <i data-lucide="pen-tool" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-jumblers-black">Neurocopywriting</h3>
-                    <p class="text-gray-600 flex-grow">Textos que venden. Redacción estratégica y persuasiva para webs, correos y anuncios.</p>
-                </div>
-                 <!-- Tarjeta 4 -->
-                 <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-4 border-jumblers-black flex flex-col">
-                    <div class="w-12 h-12 rounded-lg bg-gray-100 text-jumblers-black flex items-center justify-center mb-6">
-                        <i data-lucide="laptop" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-jumblers-black">Diseño Web</h3>
-                    <p class="text-gray-600 flex-grow">Sitios web de alto impacto integrados con pasarelas de pago seguras para vender 24/7.</p>
-                </div>
-                 <!-- Tarjeta 5 -->
-                 <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-4 border-jumblers-purple flex flex-col">
-                    <div class="w-12 h-12 rounded-lg bg-purple-100 text-jumblers-purple flex items-center justify-center mb-6">
-                        <i data-lucide="palette" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-jumblers-black">Branding</h3>
-                    <p class="text-gray-600 flex-grow">Construimos marcas memorables. Desde la identidad visual hasta piezas gráficas creativas.</p>
-                </div>
-                 <!-- Tarjeta 6 -->
-                 <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-4 border-jumblers-black flex flex-col">
-                    <div class="w-12 h-12 rounded-lg bg-gray-100 text-jumblers-black flex items-center justify-center mb-6">
-                        <i data-lucide="printer" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-jumblers-black">Publicidad Física</h3>
-                    <p class="text-gray-600 flex-grow">Evidencia física. Diseño y producción de material POP, stands y experiencias BTL.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN DE LABORATORIO DE IA -->
-    <section id="ai-lab" class="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-jumblers-black to-[#2e1065] text-white">
-        <!-- Decoración de fondo -->
-        <div class="absolute top-0 right-0 p-12 opacity-10 hidden md:block">
-            <i data-lucide="sparkles" class="w-64 h-64"></i>
-        </div>
-
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-16 md:py-24 bg-texture-services relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Columna Izquierda: Explicación -->
-                <div>
-                    <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-4 bg-white/10 text-jumblers-purple">
-                        <i data-lucide="sparkles" class="mr-2 w-4 h-4"></i> Powered by Gemini
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Jumblers AI Lab ✨</h2>
-                    <p class="text-lg text-gray-300 mb-6">
-                        Experimenta el poder del <strong>Neurocopywriting</strong> al instante. Nuestra herramienta gratuita crea titulares diseñados para activar los disparadores mentales de tus clientes.
-                    </p>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-center"><i data-lucide="check-circle" class="mr-2 text-green-400 w-5 h-5"></i> Analiza tu producto al instante.</li>
-                        <li class="flex items-center"><i data-lucide="check-circle" class="mr-2 text-green-400 w-5 h-5"></i> Aplica sesgos cognitivos reales.</li>
-                    </ul>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-lg md:text-xl font-bold uppercase tracking-widest text-jumblers-purple mb-2">Qué hacemos</h2>
+                <p class="text-4xl md:text-6xl font-sans font-extrabold text-jumblers-black leading-tight">Portafolio integral</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 hover:shadow-xl transition-all border-t-8 border-jumblers-vibrant flex flex-col group text-left">
+                    <div class="w-14 h-14 rounded-xl bg-[#f1eeff] text-jumblers-vibrant flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><i data-lucide="search" class="w-8 h-8"></i></div>
+                    <h3 class="text-2xl font-brand mb-4 text-jumblers-black">Posicionamiento SEO</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed flex-grow font-medium">Visibilidad total en buscadores y redes sociales.</p>
                 </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 hover:shadow-xl transition-all border-t-8 border-jumblers-black flex flex-col group text-left">
+                    <div class="w-14 h-14 rounded-xl bg-gray-100 text-jumblers-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><i data-lucide="megaphone" class="w-8 h-8"></i></div>
+                    <h3 class="text-2xl font-brand mb-4 text-jumblers-black">Ads y Campañas</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed flex-grow font-medium">Gestión experta en Meta, Google y LinkedIn Ads.</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 hover:shadow-xl transition-all border-t-8 border-jumblers-vibrant flex flex-col group text-left">
+                    <div class="w-14 h-14 rounded-xl bg-[#f1eeff] text-jumblers-vibrant flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><i data-lucide="pen-tool" class="w-8 h-8"></i></div>
+                    <h3 class="text-2xl font-brand mb-4 text-jumblers-black">Neurocopywriting</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed flex-grow font-medium">Redacción persuasiva diseñada para vender.</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 hover:shadow-xl transition-shadow border-t-8 border-jumblers-black flex flex-col group text-left">
+                    <div class="w-14 h-14 rounded-xl bg-gray-100 text-jumblers-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><i data-lucide="laptop" class="w-8 h-8"></i></div>
+                    <h3 class="text-2xl font-brand mb-4 text-jumblers-black">Diseño Web</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed flex-grow font-medium">Sitios web de alto impacto para vender 24/7.</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 hover:shadow-xl transition-all border-t-8 border-jumblers-vibrant flex flex-col group text-left">
+                    <div class="w-14 h-14 rounded-xl bg-[#f1eeff] text-jumblers-vibrant flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><i data-lucide="palette" class="w-6 h-6"></i></div>
+                    <h3 class="text-2xl font-brand mb-4 text-jumblers-black">Branding</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed flex-grow font-medium">Construimos marcas memorables y consistentes.</p>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 hover:shadow-xl transition-all border-t-8 border-jumblers-black flex flex-col group text-left">
+                    <div class="w-12 h-12 rounded-lg bg-gray-100 text-jumblers-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><i data-lucide="printer" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-brand mb-3 text-jumblers-black">Publicidad Física</h3>
+                    <p class="text-gray-600 flex-grow font-medium">Material POP, stands y experiencias BTL.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Columna Derecha: Interfaz Interactiva -->
-                <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 shadow-2xl">
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i data-lucide="pen-tool" class="mr-2 w-5 h-5 text-jumblers-purple"></i> Generador de Titulares
-                    </h3>
-                    
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">¿Qué quieres vender hoy?</label>
-                        <input type="text" id="ai-input" placeholder="Ej: Zapatillas, Consultoría..." class="w-full bg-black/30 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all">
+    <!-- AI LAB SECTION -->
+    <section id="ai-lab" class="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-black to-jumblers-purple text-white">
+        <div class="absolute inset-0 bg-texture-ai opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-left">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-4 bg-white/10 text-jumblers-accent"><i data-lucide="sparkles" class="mr-2 w-4 h-4"></i> Powered by Gemini</div>
+                    <h2 class="text-4xl md:text-6xl font-sans font-extrabold mb-4 text-white leading-tight">Jumblers AI Lab ✨</h2>
+                    <p class="text-xl text-gray-300 mb-6 font-medium">Experimenta el poder del <strong>Neurocopywriting</strong> al instante.</p>
+                </div>
+                <div class="bg-zinc-900/90 border border-white/20 rounded-3xl p-8 shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center text-jumblers-accent">Generador de Titulares</h3>
+                    <div class="mb-6 text-left">
+                        <label class="block text-sm font-bold text-gray-300 mb-2">¿Qué quieres vender hoy?</label>
+                        <input type="text" id="ai-input" placeholder="Ej: Zapatillas, Consultoría..." class="w-full bg-black/60 border border-gray-600 rounded-xl p-4 text-white placeholder-gray-500 focus:ring-4 focus:ring-jumblers-vibrant outline-none font-medium">
                     </div>
-                    
-                    <button onclick="generateMockIdeas()" id="ai-btn" class="w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center transition-all bg-jumblers-purple hover:scale-[1.02]">
-                        <i data-lucide="sparkles" class="mr-2 w-5 h-5"></i> Generar Ideas ✨
-                    </button>
-
-                    <!-- Resultados (Ocultos por defecto) -->
-                    <div id="ai-results" class="space-y-4 mt-6 hidden">
-                        <div class="p-4 rounded-lg border bg-blue-500/20 border-blue-500/30">
+                    <button onclick="generateMockIdeas()" id="ai-btn" class="w-full py-4 px-4 rounded-xl font-bold text-xl flex items-center justify-center transition-colors bg-jumblers-vibrant hover:bg-jumblers-accent shadow-lg shadow-purple-500/20">Generar Ideas ✨</button>
+                    <div id="ai-results" class="space-y-4 mt-6 hidden text-left">
+                        <div class="p-4 rounded-xl border bg-blue-500/20 border-blue-500/30">
                             <h4 class="text-xs font-bold uppercase text-blue-300 mb-1">🤔 Curiosidad</h4>
-                            <p class="font-medium text-white text-lg" id="res-curiosity">Cargando...</p>
-                        </div>
-                        <div class="p-4 rounded-lg border bg-red-500/20 border-red-500/30">
-                            <h4 class="text-xs font-bold uppercase text-red-300 mb-1">😟 Dolor / Miedo</h4>
-                            <p class="font-medium text-white text-lg" id="res-pain">Cargando...</p>
-                        </div>
-                        <div class="p-4 rounded-lg border bg-green-500/20 border-green-500/30">
-                            <h4 class="text-xs font-bold uppercase text-green-300 mb-1">🤩 Beneficio</h4>
-                            <p class="font-medium text-white text-lg" id="res-benefit">Cargando...</p>
+                            <p class="font-bold text-white text-lg" id="res-curiosity">...</p>
                         </div>
                     </div>
                 </div>
@@ -264,62 +231,64 @@
         </div>
     </section>
 
-    <!-- SECCIÓN NOSOTROS -->
-    <section id="about" class="py-16 md:py-24 bg-jumblers-black text-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <!-- SECCIÓN NOSOTROS (Iconos en las 4 esquinas - Optimizado) -->
+    <section id="about" class="py-16 md:py-24 bg-black text-white relative overflow-hidden text-left">
+        <div class="absolute inset-0 bg-texture-about"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
                 <div class="order-2 lg:order-1">
-                    <div class="inline-block px-3 py-1 mb-4 rounded-full text-xs font-semibold tracking-wide uppercase border border-purple-500 text-purple-300">
-                        Nuestra historia
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold mb-6">
-                        Nacimos de un sueño, <br />
-                        <span class="text-jumblers-purple">trabajamos para cumplir el tuyo.</span>
-                    </h2>
-                    <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                    <div class="inline-block px-4 py-1 mb-4 rounded-full text-xs font-bold tracking-widest uppercase border border-jumblers-vibrant text-jumblers-accent">Nuestra historia</div>
+                    <h2 class="text-4xl md:text-6xl font-sans font-extrabold mb-6 leading-tight">Nacimos de un sueño, <br /><span class="text-jumblers-accent">trabajamos para cumplir el tuyo.</span></h2>
+                    <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-6 font-medium">
                         Lo que comenzó como el sueño de tres profesionales de la <strong>Universidad Sergio Arboleda</strong>, Julian Barajas, Mauricio Robles y Sebastián Vargas hoy es una realidad imparable. En Jumblers no somos una agencia fría de métricas vacías; somos <strong>humanos conectando con humanos</strong>.
                     </p>
-                    
-                    <div class="space-y-5 mt-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-900/30 flex items-center justify-center text-jumblers-purple">
-                                <i data-lucide="heart" class="w-5 h-5"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-bold">Cercanía real</h4>
-                                <p class="text-sm text-gray-400">Más que proveedores, somos tu equipo extendido.</p>
-                            </div>
+                            <div class="h-12 w-12 rounded-xl bg-jumblers-vibrant/30 flex items-center justify-center text-jumblers-accent mr-4 flex-shrink-0"><i data-lucide="heart" class="w-6 h-6"></i></div>
+                            <div><h4 class="text-xl font-brand text-white">Cercanía real</h4><p class="text-sm text-gray-400 font-medium">Somos tu equipo extendido.</p></div>
                         </div>
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-900/30 flex items-center justify-center text-jumblers-purple">
-                                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-bold">ADN Sergio Arboleda</h4>
-                                <p class="text-sm text-gray-400">Profesionalismo, ética y pasión fundacional.</p>
-                            </div>
+                            <div class="h-12 w-12 rounded-xl bg-jumblers-vibrant/30 flex items-center justify-center text-jumblers-accent mr-4 flex-shrink-0"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                            <div><h4 class="text-xl font-brand text-white">ADN Sergio Arboleda</h4><p class="text-sm text-gray-400 font-medium">Profesionalismo y ética fundacional.</p></div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="order-1 lg:order-2">
-                    <div class="bg-gradient-to-br from-[#4c1d95] to-jumblers-black p-1 rounded-2xl transform md:rotate-3 shadow-2xl border border-white/10">
-                        <div class="bg-white/5 backdrop-blur-md rounded-xl p-8">
-                            <div class="text-center mb-8">
-                                <span class="block text-5xl font-extrabold text-white mb-2">100%</span>
-                                <span class="text-sm uppercase tracking-widest text-purple-300">Pasión y compromiso</span>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4 text-center">
-                                <div class="bg-black/30 p-4 rounded-lg">
-                                    <span class="block text-2xl font-bold">3</span>
-                                    <span class="text-xs text-gray-400">Fundadores</span>
-                                </div>
-                                <div class="bg-black/30 p-4 rounded-lg">
-                                    <span class="block text-2xl font-bold">360°</span>
-                                    <span class="text-xs text-gray-400">Servicios</span>
-                                </div>
-                            </div>
+                <!-- Columna Imagen con Iconos en las 4 Esquinas -->
+                <div class="order-1 lg:order-2 flex justify-center items-center">
+                    <!-- Contenedor principal con padding amplio para evitar recortes en móvil -->
+                    <div class="relative p-14 md:p-20 w-full max-w-sm md:max-w-md lg:max-w-lg">
+                        
+                        <!-- 1. LinkedIn: Superior Izquierda -->
+                        <a href="https://www.linkedin.com/company/jumblers-agency" target="_blank" class="absolute top-4 left-4 md:top-8 md:left-8 z-20 bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/20 text-blue-400 shadow-xl animate-float-mid hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center justify-center">
+                            <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- 2. Instagram: Superior Derecha -->
+                        <a href="https://www.instagram.com/jumblerss" target="_blank" class="absolute top-4 right-4 md:top-8 md:right-8 z-20 bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/20 text-jumblers-accent shadow-xl animate-float-slow hover:bg-jumblers-purple hover:text-white transition-all duration-300 flex items-center justify-center">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- 3. Facebook: Inferior Izquierda -->
+                        <a href="https://www.facebook.com/profile.php?id=61577984939499" target="_blank" class="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-20 bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/20 text-blue-500 shadow-xl animate-float-alt hover:bg-blue-700 hover:text-white transition-all duration-300 flex items-center justify-center">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+
+                        <!-- 4. TikTok: Inferior Derecha -->
+                        <a href="https://www.tiktok.com/@jumblerss" target="_blank" class="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-20 bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/20 text-white shadow-xl animate-float-fast hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2.104a.229.229 0 0 0-.23-.23h-4.045a.229.229 0 0 0-.23.23v13.695c0 1.947-1.578 3.525-3.525 3.525-1.947 0-3.525-1.578-3.525-3.525 0-1.947 1.578-3.525 3.525-3.525.422 0 .826.074 1.2.209a.23.23 0 0 0 .299-.154l1.326-4.417a.23.23 0 0 0-.159-.287 7.46 7.46 0 0 0-2.666-.451C3.583 7.189 0 10.772 0 15.189 0 19.606 3.583 23.189 8 23.189c4.417 0 8-3.583 8-8V9.167c1.722 1.233 3.812 1.963 6.073 1.963a.229.229 0 0 0 .23-.23V6.916a.229.229 0 0 0-.229-.23 4.787 4.787 0 0 1-2.485-.686z"/>
+                            </svg>
+                        </a>
+
+                        <!-- Imagen del Equipo Principal -->
+                        <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white/10 transform md:rotate-2 group-hover:rotate-0 transition-all duration-500 z-10 bg-black aspect-[3/4]">
+                            <img src="equipo.png" alt="Equipo Jumblers" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
                         </div>
+                        
+                        <!-- Elemento decorativo detrás -->
+                        <div class="absolute -bottom-4 -right-4 w-full h-full border-4 border-jumblers-vibrant/20 rounded-[2.5rem] -z-10 group-hover:bottom-0 group-hover:right-0 transition-all duration-500"></div>
                     </div>
                 </div>
             </div>
@@ -327,153 +296,92 @@
     </section>
 
     <!-- SECCIÓN CONTACTO -->
-    <section id="contact" class="py-16 md:py-24 bg-jumblers-light">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
-                <div class="p-10 bg-jumblers-purple text-white">
-                    <h3 class="text-2xl font-bold mb-4">Contáctanos</h3>
-                    <p class="mb-8 text-purple-100">Estamos listos para escucharte. Inicia una conversación inmediata.</p>
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <i data-lucide="mail" class="mr-3 w-5 h-5"></i>
-                            <span class="text-sm">agencia.jumblers@gmail.com</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i data-lucide="phone" class="mr-3 w-5 h-5"></i>
-                            <span class="text-sm">+57 320 449 1592 / +57 319 4126419</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i data-lucide="map-pin" class="mr-3 w-5 h-5"></i>
-                            <span class="text-sm">Bogotá - Colombia</span>
-                        </div>
-                    </div>
+    <section id="contact" class="py-16 md:py-24 bg-texture-contact relative text-center">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-purple-100 p-8 md:p-12">
+                <h3 class="text-4xl md:text-5xl font-sans font-extrabold text-black mb-10 leading-tight">¿Listo para despegar?</h3>
+                <div class="flex flex-col space-y-5 max-w-sm mx-auto">
+                    <a href="https://wa.me/573204491592?text=Hola!%20Quiero%20potenciar%20mi%20marca" target="_blank" class="w-full py-5 px-8 rounded-2xl font-bold text-xl text-white bg-black hover:bg-jumblers-purple transition-all shadow-lg flex items-center justify-center transform hover:-translate-y-1">Hablemos (WhatsApp 1) <i data-lucide="message-circle" class="ml-2 w-6 h-6 text-green-400"></i></a>
+                    <a href="https://wa.me/573194126419?text=Hola!%20Quiero%20potenciar%20mi%20marca" target="_blank" class="w-full py-5 px-8 rounded-2xl font-bold text-xl text-white bg-black hover:bg-jumblers-purple transition-all shadow-lg flex items-center justify-center transform hover:-translate-y-1">Hablemos (WhatsApp 2) <i data-lucide="message-circle" class="ml-2 w-6 h-6 text-green-400"></i></a>
+                    <a href="mailto:agencia.jumblers@gmail.com" class="w-full py-5 px-8 rounded-2xl font-bold text-xl text-black bg-white border-4 border-black hover:bg-gray-50 transition-all flex items-center justify-center transform hover:-translate-y-1">Correo <i data-lucide="mail" class="ml-2 w-6 h-6 text-jumblers-vibrant"></i></a>
                 </div>
-                <div class="p-10 flex flex-col justify-center items-center text-center">
-                    <h3 class="text-2xl font-bold mb-4 text-jumblers-black">¿Listo para despegar?</h3>
-                    <p class="mb-8 text-gray-600">No pierdas tiempo con formularios. Hablemos directamente.</p>
-                    <!-- Enlace de WhatsApp actualizado en sección Contacto -->
-                    <a href="https://wa.me/573204491592?text=Hola!%20Quiero%20potenciar%20mi%20marca" target="_blank" class="w-full px-8 py-4 rounded-full font-bold text-lg text-white bg-jumblers-black hover:bg-gray-800 transition-all shadow-lg flex items-center justify-center transform hover:-translate-y-1">
-                        Hablemos <i data-lucide="message-circle" class="ml-2 w-5 h-5"></i>
-                    </a>
-                </div>
+                <div class="mt-12 pt-8 border-t border-gray-100"><p class="flex items-center justify-center text-gray-500 text-lg font-bold"><i data-lucide="map-pin" class="mr-2 w-6 h-6 text-jumblers-vibrant"></i> Bogotá - Colombia</p></div>
             </div>
         </div>
     </section>
 
-    <!-- PIE DE PÁGINA (FOOTER) -->
-    <footer class="bg-[#050505] text-gray-400 py-12 border-t border-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0 flex items-center">
-                <!-- Logo Footer -->
-                <div class="flex-shrink-0 mr-2">
-                    <!-- 1. Imagen del Logo Footer (Busca 'Logo.png' igual que arriba) -->
-                    <img src="Logo.png" alt="Logo Jumblers" class="h-8 w-auto rounded-md border border-purple-500/30 object-contain bg-jumblers-black" onerror="this.style.display='none'; document.getElementById('fallback-logo-footer').style.display='flex'">
-                    
-                    <!-- 2. Respaldo Footer (Por si falla la imagen) -->
-                    <div id="fallback-logo-footer" class="h-8 w-8 bg-jumblers-black rounded-md items-center justify-center border border-purple-500/30 hidden">
-                        <span class="text-jumblers-purple font-bold text-lg">J</span>
-                    </div>
-                </div>
-                <div>
-                    <span class="text-xl font-bold text-white tracking-tighter">
-                        JUMBLERS<span class="text-jumblers-purple">.</span>
-                    </span>
-                    <p class="text-sm mt-1">Agencia de marketing 360°</p>
-                </div>
+    <!-- FOOTER -->
+    <footer class="bg-black text-gray-400 py-12 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-center">
+            <div class="mb-6 md:mb-0 flex items-center justify-center md:justify-start">
+                <img src="Default Negativo.png" alt="Logo Jumblers Blanco" class="h-10 w-auto mr-2" onerror="this.style.display='none';">
+                <span class="text-2xl font-brand text-white tracking-tight">JUMBLERS<span class="text-jumblers-vibrant">.</span></span>
             </div>
-            <div class="text-sm">
-                &copy; <script>document.write(new Date().getFullYear())</script> Jumblers Marketing.
-            </div>
+            <div class="text-lg font-medium">&copy; <script>document.write(new Date().getFullYear())</script> Jumblers Marketing.</div>
         </div>
     </footer>
 
-    <!-- SCRIPTS (Lógica funcional para móvil, scroll e IA) -->
     <script>
-        // Inicializar Iconos de la librería Lucide
         lucide.createIcons();
-
-        // 1. Lógica del Menú Móvil
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        
         menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Cerrar menú al hacer clic en un enlace
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // 2. Efecto Navbar al hacer Scroll
-        const navbar = document.getElementById('navbar');
-        const logoText = document.getElementById('logo-text');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const menuIcon = document.querySelector('#mobile-menu-btn i');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                // Estado: Scrolled (Fondo blanco)
-                navbar.classList.add('bg-white', 'shadow-md', 'py-2');
-                navbar.classList.remove('py-4');
-                logoText.classList.remove('text-white');
-                logoText.classList.add('text-jumblers-black');
-                navLinks.forEach(link => {
-                    link.classList.remove('text-gray-100');
-                    link.classList.add('text-gray-800');
-                });
-                menuIcon.style.color = '#09090b'; 
+            if (mobileMenu.classList.contains('max-h-0')) {
+                mobileMenu.classList.remove('max-h-0', 'opacity-0');
+                mobileMenu.classList.add('max-h-screen', 'opacity-100');
             } else {
-                // Estado: Top (Transparente)
-                navbar.classList.remove('bg-white', 'shadow-md', 'py-2');
-                navbar.classList.add('py-4');
-                logoText.classList.add('text-white');
-                logoText.classList.remove('text-jumblers-black');
-                navLinks.forEach(link => {
-                    link.classList.add('text-gray-100');
-                    link.classList.remove('text-gray-800');
-                });
-                menuIcon.style.color = '#ffffff'; 
+                mobileMenu.classList.add('max-h-0', 'opacity-0');
+                mobileMenu.classList.remove('max-h-screen', 'opacity-100');
             }
         });
 
-        // 3. Lógica del Laboratorio de IA (Simulada para funcionar sin servidor)
+        const navbar = document.getElementById('navbar');
+        const logoText = document.getElementById('logo-text');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const logoHome = document.getElementById('logo-home');
+        const logoScroll = document.getElementById('logo-scroll');
+        const menuBtnIcon = document.getElementById('mobile-menu-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-2');
+                navbar.classList.remove('py-4');
+                logoText.classList.add('text-black');
+                logoText.classList.remove('text-white');
+                navLinks.forEach(link => { link.classList.add('text-gray-800'); link.classList.remove('text-gray-100'); });
+                menuBtnIcon.classList.add('text-black');
+                menuBtnIcon.classList.remove('text-white');
+                if(logoHome) logoHome.classList.add('hidden');
+                if(logoScroll) logoScroll.classList.remove('hidden');
+            } else {
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-2');
+                navbar.classList.add('py-4');
+                logoText.classList.remove('text-black');
+                logoText.classList.add('text-white');
+                navLinks.forEach(link => { link.classList.remove('text-gray-800'); link.classList.add('text-gray-100'); });
+                menuBtnIcon.classList.remove('text-black');
+                menuBtnIcon.classList.add('text-white');
+                if(logoHome) logoHome.classList.remove('hidden');
+                if(logoScroll) logoScroll.classList.add('hidden');
+            }
+        });
+
         function generateMockIdeas() {
             const input = document.getElementById('ai-input').value;
             const btn = document.getElementById('ai-btn');
             const results = document.getElementById('ai-results');
-
-            if (!input) {
-                alert("Por favor escribe qué producto quieres vender.");
-                return;
-            }
-
-            // Estado de carga
+            if (!input) return;
             btn.innerHTML = `<i data-lucide="loader" class="animate-spin mr-2 w-5 h-5"></i> Analizando...`;
             lucide.createIcons(); 
             btn.disabled = true;
-            btn.classList.add('opacity-75');
-
-            // Simular tiempo de pensamiento (1.5s)
             setTimeout(() => {
-                // Restaurar botón
                 btn.innerHTML = `<i data-lucide="sparkles" class="mr-2 w-5 h-5"></i> Generar Ideas ✨`;
                 btn.disabled = false;
-                btn.classList.remove('opacity-75');
                 lucide.createIcons();
-
-                // Mostrar resultados
                 results.classList.remove('hidden');
-                
-                // Generar textos basados en el input del usuario
                 document.getElementById('res-curiosity').innerText = `¿Sabías que el 90% ignora este secreto sobre ${input}?`;
-                document.getElementById('res-pain').innerText = `Deja de perder dinero hoy mismo por no tener ${input} optimizado.`;
-                document.getElementById('res-benefit').innerText = `Consigue resultados x10 con ${input} sin esfuerzo extra.`;
             }, 1500);
         }
     </script>
 </body>
 </html>
-
